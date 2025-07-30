@@ -1,17 +1,4 @@
-import { useState } from 'react';
-
 function App() {
-  const [status, setStatus] = useState('SAFE TO WORK');
-
-  const handleResync = async () => {
-    try {
-      const response = await window.electronAPI.runSync();
-      setStatus(response.includes('SAFE TO WORK') ? 'SAFE TO WORK' : 'SYNC FAILED');
-    } catch (err) {
-      setStatus('SYNC FAILED');
-    }
-  };
-
   return (
     <div
       style={{
@@ -23,18 +10,10 @@ function App() {
         fontFamily: 'sans-serif'
       }}
     >
-      <h1 style={{ color: status === 'SAFE TO WORK' ? 'green' : 'red' }}>{status}</h1>
-      <button
-        onClick={handleResync}
-        style={{
-          padding: '10px 20px',
-          marginTop: '20px',
-          fontSize: '16px',
-          cursor: 'pointer'
-        }}
-      >
-        Re‑Sync
-      </button>
+      <h1 style={{ color: 'green' }}>SAFE TO WORK</h1>
+      <p style={{ marginTop: '20px', fontSize: '16px' }}>
+        To sync manually, open Warp and type: <strong>fixsync</strong>
+      </p>
     </div>
   );
 }
