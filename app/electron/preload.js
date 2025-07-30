@@ -9,10 +9,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
       execFile(syncScript, (error, stdout) => {
         if (error) {
           reject('SYNC FAILED');
-        } else if (stdout.includes('SAFE TO WORK')) {
-          resolve('SAFE TO WORK');
         } else {
-          resolve('SYNC FAILED');
+          // Clean up output: remove color codes, newlines, extra spaces
+          const cleanOutput = stdout.replace(/\x1B\[[0-9;]*[a-zA-Z]/g, '').trim();
+          if (cleanOutput.includes('SAFE TO WORK')) {
+            resolve('SAFE TO WORK');
+          } else {
+            resolve('SYNC FAILED');
+          }
         }
       });
     })
