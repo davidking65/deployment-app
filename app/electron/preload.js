@@ -1,14 +1,19 @@
-const { contextBridge, execFile } = require('electron');
-const { execFile: runFile } = require('child_process');
+const { contextBridge } = require('electron');
+const { execFile } = require('child_process');
 const path = require('path');
 
 contextBridge.exposeInMainWorld('electronAPI', {
   runSync: () =>
     new Promise((resolve, reject) => {
       const syncScript = path.join(process.env.HOME, 'Documents/Dev/git-auto-sync.command');
-      runFile(syncScript, (error, stdout) => {
-        if (error) reject(error);
-        else resolve(stdout);
+      execFile(syncScript, (error, stdout) => {
+        if (error) {
+          reject('SYNC FAILED');
+        } else if (stdout.includes('SAFE TO WORK')) {
+          resolve('SAFE TO WORK');
+        } else {
+          resolve('SYNC FAILED');
+        }
       });
     })
 });
