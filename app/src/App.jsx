@@ -13,7 +13,16 @@ function App() {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '100px', fontFamily: 'sans-serif' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        fontFamily: 'sans-serif'
+      }}
+    >
       <h1 style={{ color: status === 'SAFE TO WORK' ? 'green' : 'red' }}>{status}</h1>
       <button
         onClick={handleResync}
